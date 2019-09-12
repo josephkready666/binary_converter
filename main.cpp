@@ -398,57 +398,56 @@ int ToDecimal(int n, int cBase)
 //{
 //	if (baseNumberSystem == 2)
 //	{
+//		int counter = 0;
+//		int total = 0;
 //		string tempValue;
+//		string hexConversion;
 //		stringstream str;
 //		vector<char> solution;
-//		string hexConversion;
+//		vector<char> hexValues = { 'A','B','C','D','E','F' };
 //
 //		while (valueInBase.size() % 4 != 0)
 //		{
 //			tempValue[0] = 0;
 //
 //			for (int i = 1; i <= valueInBase.size(); i++)
-//			{
 //				tempValue[i] = valueInBase[i - 1];
-//			}
 //
 //			valueInBase = tempValue;
 //		}
 //
-//		int counter = 0;
-//		int total = 0;
-//		vector<char> hexValues = { 'A','B','C','D','E','F' };
-//		int value[valueInBase.size];
-//		str << valueInBase;
-//		str >> value;
+//		vector<int> value;
+//
+//		for (int i = 0; i <= valueInBase.size(); i++)
+//			value[i] = valueInBase[i];
 //
 //		for (int i = 0; i <= valueInBase.size(); i++)
 //		{
 //			if (value[i] == 0)
-//			{
 //				counter++;
-//			}
-//			else if (value[i] == 1 && counter = 0)
-//			{
-//				total = total + 8;
-//				counter++;
-//			}
 //
-//			else if (value[i] == 1 && counter = 1)
+//			else if (value[i] == 1)
 //			{
-//				total = total + 4;
-//				counter++;
-//			}
+//				if (counter = 0)
+//				{
+//					total = total + 8;
+//					counter++;
+//				}
 //
-//			else if (value[i] == 1 && counter = 2)
-//			{
-//				total = total + 2;
-//				counter++;
-//			}
+//				if (counter = 1)
+//				{
+//					total = total + 4;
+//					counter++;
+//				}
 //
-//			else if (value[i] == 1 && counter = 3)
-//			{
-//				total = total + 1;
+//				if (counter = 2)
+//				{
+//					total = total + 2;
+//					counter++;
+//				}
+//
+//				if (counter = 3)
+//					total = total + 1;
 //			}
 //
 //			if (counter == 3)
@@ -459,9 +458,8 @@ int ToDecimal(int n, int cBase)
 //					solution.push_back(hexValues[total]);
 //				}
 //				else
-//				{
 //					solution.push_back(total);
-//				}
+//
 //				counter = 0;
 //				total = 0;
 //			}
@@ -470,9 +468,8 @@ int ToDecimal(int n, int cBase)
 //		reverse(solution.begin(), solution.end());
 //
 //		for (int i = 0; i <= solution.size(); i++)
-//		{
 //			hexConversion = to_string(solution[i]);
-//		}
+//
 //		return hexConversion;
 //	}
 //
@@ -497,10 +494,9 @@ int ToDecimal(int n, int cBase)
 //				total = total - 10;
 //				solution.push_back(hexValues[total]);
 //			}
+//
 //			else
-//			{
 //				solution.push_back(total);
-//			}
 //
 //			value = wholeNum;
 //			wholeNum = value / 16;
@@ -515,21 +511,17 @@ int ToDecimal(int n, int cBase)
 //			solution.push_back(hexValues[total]);
 //		}
 //		else
-//		{
 //			solution.push_back(total);
-//		}
 //
 //		reverse(solution.begin(), solution.end());
 //
 //		for (int i = 0; i <= solution.size(); i++)
-//		{
 //			hexConversion = to_string(solution[i]);
-//		}
+//
 //		return hexConversion;
 //	}
 //
 //	if (baseNumberSystem == 16)
-//	{
 //		return valueInBase;
-//	}
 //}
+//
