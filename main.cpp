@@ -13,6 +13,7 @@ Members:
 #include<numeric>
 #include<algorithm>
 #include<string>
+#include<sstream>
 #include<stdio.h> 
 #include<vector>
 using namespace std;
@@ -26,6 +27,10 @@ int toDeci(char*, int);
 char reVal(int);
 void strev(char*);
 char* fromDeci(char[], int, int);
+string get_base_2(string, int);
+int ToDecimal(string, int);
+int ToDecimal(int, int);
+//string get_base_16(int, string);
 
 
 
@@ -46,16 +51,25 @@ int main() {
 		string solution;
 		switch (targetNumberSystem)
 		{
-		case(2):
+		case(2): //Lauren Nowlin: T00616689
+			solution = get_base_2(valueInBase, baseNumberSystem); 
+			break;
+
+		case(10): //Kush Patel : T00640682
+			if (baseNumberSystem > 10) {
+				int ans = ToDecimal(valueInBase, baseNumberSystem);
+				solution = to_string(ans);
+			}
+			if (baseNumberSystem <= 10) {
+				int value = stoi(valueInBase);
+				int ans = ToDecimal(value, baseNumberSystem);
+				solution = to_string(ans);
+			}
 
 			break;
 
-		case(10):
-
-			break;
-
-		case(16):
-
+		case(16): //Kwame Williams : T00629167
+			/*solution = get_base_16(baseNumberSystem, valueInBase);*/
 			break;
 
 		default:
@@ -262,3 +276,260 @@ char* fromDeci(char res[], int base, int inputNum){
 	return res;
 }
 
+string get_base_2(string valueInBase, int baseValue) { //LAUREN
+	//vector to hold the remainders that become the binary number
+	vector<int> solution;
+	//return value
+	string sol;
+	//gives a string a stream value, so that you can read through it
+	stringstream str;
+	//value that stringstream will convert to
+	int	value;
+	//value used to iterate through while loop
+	int i = 0;
+
+	switch (baseValue) {
+	case(2):
+		//was passed in as a binary number
+		return valueInBase;
+		break;
+	case(8):
+		//use our stringstream to convert valueInBase to stream
+		str << valueInBase;
+		//converts the stream to a octal value
+		str >> oct >> value;
+		break;
+	case(10):
+		//converts string passed in, to an integer value
+		value = stoi(valueInBase);
+		break;
+	case(16):
+		//use our stringstream to convert valueInBase to stream
+		str << valueInBase;
+		//converts the stream to a hexadecimal value
+		str >> hex >> value;
+		break;
+	default:
+		break;
+	}
+	//convert int value to binary
+	while (value > 0) {
+		// storing remainder in a vector
+		solution.push_back(value % 2);
+		value = value / 2;
+		i++;
+	}
+
+	// the vector has the values in reverse order, so reverse, puts them in the correct order
+	std::reverse(solution.begin(), solution.end());
+
+	for (i = 0; i < solution.size(); i++) {
+		//converting vector into return type
+		sol += to_string(solution[i]);
+	}
+
+	return sol;
+}
+
+
+// Function to convert any base greater than 10 to decimal 
+int ToDecimal(string Val, int cBase)
+{
+	//source: https://www.geeksforgeeks.org/program-hexadecimal-decimal/
+	int len = Val.length();
+
+	// Initializing base value to 1, i.e 16^0 
+	int base = 1;
+
+	int dec_val = 0;
+
+	// Extracting characters as digits from last character 
+	for (int i = len - 1; i >= 0; i--)
+	{
+		// if character lies in '0'-'9', converting  
+		// it to integral 0-9 by subtracting 48 from 
+		// ASCII value. 
+		if (Val[i] >= '0' && Val[i] <= '9')
+		{
+			dec_val += (Val[i] - 48) * base;
+
+			// incrementing base by power 
+			base = base * cBase;
+		}
+
+		// if character lies in 'A'-'F' , converting   
+		else if (Val[i] >= 'A' && Val[i] <= 'F')
+		{
+			dec_val += (Val[i] - 55) * base;
+
+			// incrementing base by power 
+			base = base * cBase;
+		}
+	}
+
+	return dec_val;
+}
+
+// Function to convert any base less than or equal 10 to decimal 
+int ToDecimal(int n, int cBase)
+{
+	// Scource: https://www.geeksforgeeks.org/program-binary-decimal-conversion/
+	int num = n;
+	int dec_value = 0;
+
+	// Initializing base value to 1, i.e 2^0 
+	int base = 1;
+
+	int temp = num;
+	while (temp) {
+		int last_digit = temp % 10;
+		temp = temp / 10;
+
+		dec_value += last_digit * base;
+
+		base = base * cBase;
+	}
+
+	return dec_value;
+}
+
+
+//string get_base_16(int baseNumberSystem, string valueInBase)
+//{
+//	if (baseNumberSystem == 2)
+//	{
+//		string tempValue;
+//		stringstream str;
+//		vector<char> solution;
+//		string hexConversion;
+//
+//		while (valueInBase.size() % 4 != 0)
+//		{
+//			tempValue[0] = 0;
+//
+//			for (int i = 1; i <= valueInBase.size(); i++)
+//			{
+//				tempValue[i] = valueInBase[i - 1];
+//			}
+//
+//			valueInBase = tempValue;
+//		}
+//
+//		int counter = 0;
+//		int total = 0;
+//		vector<char> hexValues = { 'A','B','C','D','E','F' };
+//		int value[valueInBase.size];
+//		str << valueInBase;
+//		str >> value;
+//
+//		for (int i = 0; i <= valueInBase.size(); i++)
+//		{
+//			if (value[i] == 0)
+//			{
+//				counter++;
+//			}
+//			else if (value[i] == 1 && counter = 0)
+//			{
+//				total = total + 8;
+//				counter++;
+//			}
+//
+//			else if (value[i] == 1 && counter = 1)
+//			{
+//				total = total + 4;
+//				counter++;
+//			}
+//
+//			else if (value[i] == 1 && counter = 2)
+//			{
+//				total = total + 2;
+//				counter++;
+//			}
+//
+//			else if (value[i] == 1 && counter = 3)
+//			{
+//				total = total + 1;
+//			}
+//
+//			if (counter == 3)
+//			{
+//				if (total >= 10)
+//				{
+//					total = total - 10;
+//					solution.push_back(hexValues[total]);
+//				}
+//				else
+//				{
+//					solution.push_back(total);
+//				}
+//				counter = 0;
+//				total = 0;
+//			}
+//		}
+//
+//		reverse(solution.begin(), solution.end());
+//
+//		for (int i = 0; i <= solution.size(); i++)
+//		{
+//			hexConversion = to_string(solution[i]);
+//		}
+//		return hexConversion;
+//	}
+//
+//	if (baseNumberSystem == 10)
+//	{
+//		int wholeNum;
+//		int remainder;
+//		int total;
+//		string hexConversion;
+//		vector<char> solution;
+//		int value = stoi(valueInBase);
+//		vector<char> hexValues = { 'A','B','C','D','E','F' };
+//
+//		wholeNum = value / 16;
+//		while (wholeNum >= 1)
+//		{
+//			remainder = value % 16;
+//			total = remainder * 16;
+//
+//			if (total >= 10)
+//			{
+//				total = total - 10;
+//				solution.push_back(hexValues[total]);
+//			}
+//			else
+//			{
+//				solution.push_back(total);
+//			}
+//
+//			value = wholeNum;
+//			wholeNum = value / 16;
+//		}
+//
+//		remainder = value % 16;
+//		total = remainder * 16;
+//
+//		if (total >= 10)
+//		{
+//			total = total - 10;
+//			solution.push_back(hexValues[total]);
+//		}
+//		else
+//		{
+//			solution.push_back(total);
+//		}
+//
+//		reverse(solution.begin(), solution.end());
+//
+//		for (int i = 0; i <= solution.size(); i++)
+//		{
+//			hexConversion = to_string(solution[i]);
+//		}
+//		return hexConversion;
+//	}
+//
+//	if (baseNumberSystem == 16)
+//	{
+//		return valueInBase;
+//	}
+//}
